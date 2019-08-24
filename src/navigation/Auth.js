@@ -6,8 +6,8 @@ import Register from '../screens/Register';
 import Forgot from '../screens/Forgot';
 
 export default createStackNavigator({
-  Login,
   Register,
+  Login,
   Forgot,
 }, {
   defaultNavigationOptions: {

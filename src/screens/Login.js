@@ -1,14 +1,67 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import { Input, Layout, Text, Button } from 'react-native-ui-kitten';
 
 import Logo from '../components/Logo';
 
+import Auth from '../services/auth';
+
 export default class Login extends Component {
+ 
+  state = {
+    email: '',
+    password: ''
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  submitForm = async () => {
+    const auth = new Auth();
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    try {
+      const response = await auth.login(user);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+    
+  };
+
   render() {
     return (
-      <View>
+      <Layout>
         <Logo />
-      </View>
+        <Layout style={styles.container}>
+          <Text category='h6'>Fazer Login</Text>
+          <Input value={this.state.email} onChangeText={(email) => this.setState({email})} label='Email' placeholder='Ex: email@email.com'/>
+          <Input secureTextEntry={true} value={this.state.password} onChangeText={(password) => this.setState({password})} label='Senha' />
+          <Button style={styles.button} onPress={this.submitForm}>
+            ENTRAR
+          </Button>
+        </Layout>
+      </Layout>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    width: '100%',
+    maxWidth: 600,
+    paddingRight: '5%',
+    paddingLeft: '5%'
+  },
+  button: {
+    marginTop: '5%'
+  }
+});

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { AppLoading, Icon } from 'expo';
 import Asset from 'expo-asset';
-import Font from 'expo-font';
-
+import * as Font from 'expo-font';
+import { mapping, light as lightTheme } from '@eva-design/eva';
+import { ApplicationProvider, Layout } from 'react-native-ui-kitten';
 
 import AppNavigator from './src/navigation/AppNavigator';
 
@@ -23,19 +24,23 @@ export default class App extends Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
-          <AppNavigator />
-        </View>
+        <ApplicationProvider
+        mapping={mapping}
+        theme={lightTheme}>
+          <Layout style={styles.container}>
+            {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
+            <AppNavigator />
+          </Layout>
+        </ApplicationProvider>
       );
     }
   }
 
   _loadResourcesAsync = async () => {
     return Promise.all([
-      Asset.loadAsync([
-        require('./src/assets/img/logo.png'),
-      ]),
+      // Asset.loadAsync([
+      //   require('./src/assets/img/logo.png'),
+      // ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         // ...Icon.Ionicons.font,
